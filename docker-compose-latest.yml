@@ -1,0 +1,27 @@
+version: "3.4"
+services:
+  # Postgres DB
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dbname_test
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/:/docker-entrypoint-initdb.d/
+
+  api:
+    build:
+      dockerfile: Dockerfile
+    pull_policy: always
+    environment:
+      - GO_ENV=development
+      - GJ_DATABASE_HOST=db
+      - GJ_DATABASE_USER=postgres
+      - GJ_DATABASE_PASSWORD=postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db

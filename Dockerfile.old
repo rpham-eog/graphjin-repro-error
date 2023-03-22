@@ -1,0 +1,5 @@
+FROM dosco/graphjin:v0.20.3
+WORKDIR /
+
+COPY config/ /config/
+CMD ["serve"]
